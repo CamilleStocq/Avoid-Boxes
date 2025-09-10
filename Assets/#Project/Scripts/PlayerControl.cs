@@ -16,6 +16,7 @@ public class PlayerControl : MonoBehaviour
     private Rigidbody rb;
     private InputAction xAxis;
     private bool isGrounded = true;
+    private PlayerControl playerControl;
 
     void Awake()
     {
@@ -31,6 +32,7 @@ public class PlayerControl : MonoBehaviour
     private void Start()
     {
         jump.performed += x => { OnJump(); };
+        playerControl = GetComponent<PlayerControl>();
     }
 
     void OnEnable()
@@ -72,6 +74,14 @@ public class PlayerControl : MonoBehaviour
         if (collision.gameObject.CompareTag("Ground"))// si contact avec un objet qui a un tag "ground" alors contact est vrai
         {
             isGrounded = true;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Finish"))
+        {
+            playerControl.speed = 0;
         }
     }
 }
