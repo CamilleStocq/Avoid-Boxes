@@ -1,17 +1,31 @@
 using UnityEngine;
 
+
 public class CameraFollowPlayer : MonoBehaviour
 {
-    private Camera cam;
-    [SerializeField] private float position;
+    [SerializeField] private PlayerControl player;
+    [SerializeField] private float decal = 1;
+    [SerializeField] private float speed = 12;
 
     void Start()
     {
-        cam = this.gameObject.GetComponent<Camera>();
+        if (player == null)
+        {
+            player = FindFirstObjectByType<PlayerControl>();
+        }
     }
 
     void Update()
     {
+        //position final
+        Vector3 goalPosition = transform.position;
+        goalPosition.z = player.transform.position.z * decal;
+
+        //ma position à moi
+        Vector3 direction = (goalPosition - transform.position).normalized;
+
+        // nouvelle position
+        transform.position += Time.deltaTime * speed * direction;
         
     }
 }
